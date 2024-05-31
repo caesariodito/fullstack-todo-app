@@ -8,9 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
-@RequestMapping("/api/v1/tasks")
+@RequestMapping("/api/todos")
 public class TaskController {
 
     @Autowired
@@ -19,13 +20,10 @@ public class TaskController {
     public ResponseEntity<List<Task>> getAllTasks() {
         return ResponseEntity.ok(taskService.getAllTask());
     }
-    @GetMapping("/completed")
-    public ResponseEntity<List<Task>> getAllCompletedTasks() {
-        return ResponseEntity.ok(taskService.findAllCompletedTask());
-    }
-    @GetMapping("/incomplete")
-    public ResponseEntity<List<Task>> getAllIncompleteTasks() {
-        return ResponseEntity.ok(taskService.findAllInCompleteTask());
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
+        Optional<Task> task = taskService.getTaskById(id);
+        return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     @PostMapping("/")
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
@@ -34,7 +32,7 @@ public class TaskController {
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
         task.setId(id);
-        return ResponseEntity.ok(taskService.updateTask(task));
+        return ResponseEntity.ok(taskService.updateTask(id, task));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> getAllTasks(@PathVariable Long id) {

@@ -1,38 +1,65 @@
 package com.sesar.betodo.models;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // this is the primary key which will be auto generated
     private Long id;
-    private String task;
-    private boolean completed;
+
+    private String title;
+    private String description;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public Task() {}
 
-    public Task(String task, boolean completed) {
-        this.task = task;
-        this.completed = completed;
+    public Task(String title, String description) {
+        this.title = title;
+        this.description = description;
     }
+
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
-    public String getTask() {
-        return task;
+
+    public String getTitle() {
+        return title;
     }
-    public void setTask(String task) {
-        this.task = task;
+
+    public void setTitle(String title) {
+        this.title = title;
     }
-    public boolean isCompleted() {
-        return completed;
+
+    public String getDescription() {
+        return description;
     }
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
