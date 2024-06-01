@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class Task {
+public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,9 +16,9 @@ public class Task {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Task() {}
+    public Todo() {}
 
-    public Task(String title, String description) {
+    public Todo(String title, String description) {
         this.title = title;
         this.description = description;
     }

@@ -1,8 +1,8 @@
--- Drop the tasks table if it exists
-DROP TABLE IF EXISTS task;
+-- Drop the todo table if it exists
+DROP TABLE IF EXISTS todo;
 
--- Create the tasks table
-CREATE TABLE `task` (
+-- Create the todo table
+CREATE TABLE `todo` (
      `id` BIGINT NOT NULL AUTO_INCREMENT,
      `title` VARCHAR(255) NOT NULL,
      `description` TEXT,

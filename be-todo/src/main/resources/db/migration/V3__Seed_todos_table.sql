@@ -1,5 +1,5 @@
 -- Insert dummy data
-INSERT INTO Task (title, description, created_at, updated_at) VALUES
+INSERT INTO todo (title, description, created_at, updated_at) VALUES
     ('Complete Project', 'Finish the project by the end of the week. This includes finalizing all pending tasks, ensuring all code is properly reviewed, and preparing for the final presentation. Collaborate with all team members to ensure everything is on track.', '2024-05-01 10:00:00', '2024-05-01 10:00:00'),
     ('Write Report', 'Write the final report for the project. The report should include an executive summary, detailed methodology, results, discussions, and conclusions. Make sure to include all necessary charts and diagrams.', '2024-05-02 12:00:00', '2024-05-02 12:00:00'),
     ('Attend Meeting', 'Attend the project status meeting. Discuss the current status of the project, any roadblocks encountered, and the plans for the next phase. Ensure to document all meeting notes and follow-up items.', '2024-05-03 09:00:00', '2024-05-03 09:30:00'),
