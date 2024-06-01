@@ -2,6 +2,7 @@ package com.sesar.fe_todo.network
 import com.sesar.fe_todo.model.Todo
 
 import retrofit2.http.*
+import retrofit2.Response
 
 interface TodoApiService {
     @GET("todos/")
@@ -17,5 +18,5 @@ interface TodoApiService {
     suspend fun updateTodo(@Path("id") id: Long, @Body todo: Todo): Todo
 
     @DELETE("todos/{id}")
-    suspend fun deleteTodo(@Path("id") id: Long): Void
+    suspend fun deleteTodo(@Path("id") id: Long): Response<Unit>
 }

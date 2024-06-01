@@ -1,7 +1,9 @@
 package com.sesar.fe_todo.repository
 
+import android.util.Log
 import com.sesar.fe_todo.model.Todo
 import com.sesar.fe_todo.network.RetrofitInstance
+import retrofit2.Response
 
 class TodoRepository {
 
@@ -11,6 +13,7 @@ class TodoRepository {
         return try {
             api.getTodos()
         } catch (e: Exception) {
+            Log.e("TodoRepository", "Failed to fetch todos: ${e.message}", e)
             throw Exception("Failed to fetch todos: ${e.message}", e)
         }
     }
@@ -19,6 +22,7 @@ class TodoRepository {
         return try {
             api.createTodo(todo)
         } catch (e: Exception) {
+            Log.e("TodoRepository", "Failed to create todo: ${e.message}", e)
             throw Exception("Failed to create todo: ${e.message}", e)
         }
     }
@@ -27,14 +31,19 @@ class TodoRepository {
         return try {
             api.updateTodo(id, todo)
         } catch (e: Exception) {
+            Log.e("TodoRepository", "Failed to update todo: ${e.message}", e)
             throw Exception("Failed to update todo: ${e.message}", e)
         }
     }
 
     suspend fun deleteTodo(id: Long) {
         try {
-            api.deleteTodo(id)
+            val response: Response<Unit> = api.deleteTodo(id)
+            if (!response.isSuccessful) {
+                throw Exception("Failed to delete todo: ${response.code()} ${response.message()}")
+            }
         } catch (e: Exception) {
+            Log.e("TodoRepository", "Failed to delete todo: ${e.message}", e)
             throw Exception("Failed to delete todo: ${e.message}", e)
         }
     }

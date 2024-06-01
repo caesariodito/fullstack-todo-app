@@ -17,12 +17,16 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     private val _todos = MutableLiveData<List<Todo>>()
     val todos: LiveData<List<Todo>> get() = _todos
 
+    private fun refreshTodos(newTodos: List<Todo>) {
+        _todos.postValue(newTodos)
+        Log.d("TodoViewModel", "Current todos: $newTodos")
+    }
+
     fun fetchTodos() {
         viewModelScope.launch {
             try {
                 val fetchedTodos = repository.getTodos()
-                _todos.postValue(fetchedTodos)
-                Log.d("TodoViewModel", "Fetched Todos: $fetchedTodos")
+                refreshTodos(fetchedTodos)
             } catch (e: Exception) {
                 Log.e("TodoViewModel", "Error fetching todos", e)
             }
@@ -35,7 +39,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
                 val newTodo = repository.createTodo(todo)
                 val currentTodos = _todos.value?.toMutableList() ?: mutableListOf()
                 currentTodos.add(newTodo)
-                _todos.postValue(currentTodos)
+                refreshTodos(currentTodos)
             } catch (e: Exception) {
                 Log.e("TodoViewModel", "Error creating todo", e)
             }
@@ -50,7 +54,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
                 val index = currentTodos.indexOfFirst { it.id == id }
                 if (index >= 0) {
                     currentTodos[index] = updatedTodo
-                    _todos.postValue(currentTodos)
+                    refreshTodos(currentTodos)
                 }
             } catch (e: Exception) {
                 Log.e("TodoViewModel", "Error updating todo", e)
@@ -61,10 +65,10 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteTodo(id: Long) {
         viewModelScope.launch {
             try {
-                repository.deleteTodo(id)
                 val currentTodos = _todos.value?.toMutableList() ?: mutableListOf()
+                repository.deleteTodo(id)
                 currentTodos.removeAll { it.id == id }
-                _todos.postValue(currentTodos)
+                refreshTodos(currentTodos)
             } catch (e: Exception) {
                 Log.e("TodoViewModel", "Error deleting todo", e)
             }
