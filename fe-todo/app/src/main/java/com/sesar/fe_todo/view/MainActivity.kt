@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sesar.fe_todo.databinding.ActivityMainBinding
+import com.sesar.fe_todo.databinding.DialogCreateTodoBinding
 import com.sesar.fe_todo.databinding.DialogEditTodoBinding
 import com.sesar.fe_todo.viewmodel.TodoViewModel
 import com.sesar.fe_todo.adapter.TodoAdapter
+import com.sesar.fe_todo.databinding.DialogConfirmDeleteBinding
 import com.sesar.fe_todo.model.Todo
 
 class MainActivity : AppCompatActivity() {
@@ -23,22 +25,49 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.lifecycleOwner = this
 
-        viewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+        viewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
         binding.viewModel = viewModel
 
         setupRecyclerView()
+        setupAddButton()
 
-        viewModel.todos.observe(this) { todos ->
+        viewModel.todos.observe(this, { todos ->
             adapter.setTodos(todos)
-        }
+        })
 
         viewModel.fetchTodos()
     }
 
     private fun setupRecyclerView() {
-        adapter = TodoAdapter(onEdit = { todo -> showEditDialog(todo) }, onDelete = { todo -> viewModel.deleteTodo(todo.id) })
+        adapter = TodoAdapter(onEdit = { todo -> showEditDialog(todo) }, onDelete = { todo -> showDeleteDialog(todo) })
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun setupAddButton() {
+        binding.buttonAddTodo.setOnClickListener {
+            showCreateDialog()
+        }
+    }
+
+    private fun showCreateDialog() {
+        val dialogBinding = DialogCreateTodoBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Create Todo")
+            .setView(dialogBinding.root)
+            .setPositiveButton("Create") { _, _ ->
+                val newTodo = Todo(
+                    id = 0, // This will be ignored by the server and replaced with the actual ID
+                    title = dialogBinding.editTextTitle.text.toString(),
+                    description = dialogBinding.editTextDescription.text.toString(),
+                    createdAt = "", // The server will set this
+                    updatedAt = ""  // The server will set this
+                )
+                viewModel.createTodo(newTodo)
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+        dialog.show()
     }
 
     private fun showEditDialog(todo: Todo) {
@@ -57,6 +86,19 @@ class MainActivity : AppCompatActivity() {
             .create()
         dialogBinding.editTextTitle.setText(todo.title)
         dialogBinding.editTextDescription.setText(todo.description)
+        dialog.show()
+    }
+
+    private fun showDeleteDialog(todo: Todo) {
+        val dialogBinding = DialogConfirmDeleteBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Delete Todo")
+            .setView(dialogBinding.root)
+            .setPositiveButton("Delete") { _, _ ->
+                viewModel.deleteTodo(todo.id)
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
         dialog.show()
     }
 }
