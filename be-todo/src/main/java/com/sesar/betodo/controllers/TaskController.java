@@ -4,7 +4,6 @@ import com.sesar.betodo.models.Task;
 import com.sesar.betodo.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -12,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/api/todos")
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Task>> getAllTasks() {
         return ResponseEntity.ok(taskService.getAllTask());
     }
@@ -30,7 +29,7 @@ public class TaskController {
         return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         return ResponseEntity.ok(taskService.createNewTask(task));
     }
@@ -66,4 +65,3 @@ public class TaskController {
         }
     }
 }
-
