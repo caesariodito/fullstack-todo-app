@@ -1,13 +1,10 @@
 package com.sesar.fe_todo.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sesar.fe_todo.R
 import com.sesar.fe_todo.databinding.ActivityMainBinding
 import com.sesar.fe_todo.databinding.DialogEditTodoBinding
 import com.sesar.fe_todo.viewmodel.TodoViewModel
@@ -22,7 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         binding.lifecycleOwner = this
 
         viewModel = ViewModelProvider(this)[TodoViewModel::class.java]
@@ -32,7 +30,6 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.todos.observe(this) { todos ->
             adapter.setTodos(todos)
-            Log.d("MainActivity", "Todos observed: $todos")
         }
 
         viewModel.fetchTodos()

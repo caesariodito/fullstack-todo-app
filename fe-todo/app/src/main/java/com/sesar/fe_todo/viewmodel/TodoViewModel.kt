@@ -21,8 +21,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 val fetchedTodos = repository.getTodos()
-                _todos.value = fetchedTodos
-                // Print fetched data to the console
+                _todos.postValue(fetchedTodos)
                 Log.d("TodoViewModel", "Fetched Todos: $fetchedTodos")
             } catch (e: Exception) {
                 Log.e("TodoViewModel", "Error fetching todos", e)
