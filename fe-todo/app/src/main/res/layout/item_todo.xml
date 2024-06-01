@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
         <variable
             name="todo"
             type="com.sesar.fe_todo.model.Todo" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,35 +15,27 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
+            android:id="@+id/todoTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{todo.title}"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="@{todo.title}" />
 
         <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="match_parent"
+            android:id="@+id/todoDescription"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{todo.description}"
-            android:textSize="14sp"
-            android:paddingTop="4dp" />
+            android:text="@{todo.description}" />
 
-        <TextView
-            android:id="@+id/tvCreatedAt"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{`Created at: ` + todo.createdAt.toString()}"
-            android:textSize="12sp"
-            android:paddingTop="4dp" />
+            android:text="Edit" />
 
-        <TextView
-            android:id="@+id/tvUpdatedAt"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{`Updated at: ` + todo.updatedAt.toString()}"
-            android:textSize="12sp"
-            android:paddingTop="2dp" />
+            android:text="Delete" />
     </LinearLayout>
 </layout>
