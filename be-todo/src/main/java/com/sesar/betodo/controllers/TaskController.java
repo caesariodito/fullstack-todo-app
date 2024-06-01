@@ -1,15 +1,16 @@
 package com.sesar.betodo.controllers;
 
+import com.sesar.betodo.exceptions.TaskNotFoundException;
 import com.sesar.betodo.models.Task;
 import com.sesar.betodo.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/todos")
@@ -25,43 +26,50 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
-        Optional<Task> task = taskService.getTaskById(id);
-        return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Task task = taskService.getTaskById(id)
+                .orElseThrow(() -> new TaskNotFoundException("Task with ID " + id + " not found"));
+        return ResponseEntity.ok(task);
     }
 
     @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        return ResponseEntity.ok(taskService.createNewTask(task));
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.createNewTask(task));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, String>> updateTask(@PathVariable Long id, @RequestBody Task task) {
-        Optional<Task> existingTask = taskService.getTaskById(id);
-        if (existingTask.isPresent()) {
-            task.setId(id);
-            taskService.updateTask(id, task);
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "TODO updated successfully");
-            return ResponseEntity.ok(response);
-        } else {
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Task not found");
-            return ResponseEntity.status(404).body(response);
+        if (taskService.getTaskById(id).isEmpty()) {
+            throw new TaskNotFoundException("Task with ID " + id + " not found");
         }
+        task.setId(id);
+        taskService.updateTask(id, task);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "TODO updated successfully");
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteTask(@PathVariable Long id) {
-        Optional<Task> existingTask = taskService.getTaskById(id);
-        if (existingTask.isPresent()) {
-            taskService.deleteTask(id);
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "TODO deleted successfully");
-            return ResponseEntity.ok(response);
-        } else {
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Task not found");
-            return ResponseEntity.status(404).body(response);
+        if (taskService.getTaskById(id).isEmpty()) {
+            throw new TaskNotFoundException("Task with ID " + id + " not found");
         }
+        taskService.deleteTask(id);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "TODO deleted successfully");
+        return ResponseEntity.ok(response);
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleTaskNotFoundException(TaskNotFoundException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleException(Exception e) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", "Internal Server Error: " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }
