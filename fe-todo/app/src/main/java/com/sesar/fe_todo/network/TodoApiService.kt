@@ -11,7 +11,7 @@ interface TodoApiService {
     suspend fun getTodoById(@Path("id") id: Long): Todo
 
     @POST("todos/")
-    suspend fun addTodo(@Body todo: Todo): Todo
+    suspend fun createTodo(@Body todo: Todo): Todo
 
     @PUT("todos/{id}")
     suspend fun updateTodo(@Path("id") id: Long, @Body todo: Todo): Todo
