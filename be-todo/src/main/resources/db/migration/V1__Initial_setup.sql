@@ -1,5 +1,5 @@
--- Create the database schema
-CREATE SCHEMA IF NOT EXISTS `be-todo-bca`;
+-- Create the database
+CREATE DATABASE IF NOT EXISTS be_todo_bca;
 
 -- Use the created schema
-USE `be-todo-bca`;
+USE be_todo_bca;
