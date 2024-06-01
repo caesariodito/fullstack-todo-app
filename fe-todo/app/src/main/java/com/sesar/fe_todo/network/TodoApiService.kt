@@ -5,13 +5,13 @@ import retrofit2.http.*
 import retrofit2.Response
 
 interface TodoApiService {
-    @GET("todos/")
+    @GET("todos")
     suspend fun getTodos(): List<Todo>
 
     @GET("todos/{id}")
     suspend fun getTodoById(@Path("id") id: Long): Todo
 
-    @POST("todos/")
+    @POST("todos")
     suspend fun createTodo(@Body todo: Todo): Todo
 
     @PUT("todos/{id}")
