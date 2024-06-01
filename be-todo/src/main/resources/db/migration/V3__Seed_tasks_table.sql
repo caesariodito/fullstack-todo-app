@@ -1,12 +1,3 @@
--- Ensure the table exists
-CREATE TABLE IF NOT EXISTS Task (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255),
-    description TEXT,
-    created_at DATETIME,
-    updated_at DATETIME
-);
-
 -- Insert dummy data
 INSERT INTO Task (title, description, created_at, updated_at) VALUES
     ('Complete Project', 'Finish the project by the end of the week. This includes finalizing all pending tasks, ensuring all code is properly reviewed, and preparing for the final presentation. Collaborate with all team members to ensure everything is on track.', '2024-05-01 10:00:00', '2024-05-01 10:00:00'),
