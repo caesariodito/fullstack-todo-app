@@ -5,6 +5,8 @@ The Frontend which is mobile app is located on the [fe-todo](fe-todo/) directory
 
 The Backend which is the springboot web app is located on the [be-todo](be-todo/) directory.
 
+![The-Stack](docs/the-stack.png)
+
 ## Acknowledgement
 
 This is my personal ranting and thoughts (you can skip it).
@@ -43,6 +45,8 @@ I encountered problem mostly on the development of Frontend part, which is Kotli
 Also, this is the first time that I got the chance to delve pretty deep into the MVVM architecture and the Springboot project structure. It was pretty 'alien' for me since I never touched those tools like years. For my journey in android development, I just have a basic knowledge of the development ecosystem tools (android studio with xml views) and most of the code that I wrote there was using jetpack compose.
 
 Personally, the problem with the springboot development is on the lack of community and the official documentation to look up to. Most of the available code on the internet is outdated (even I believe that this code that I write is outdated). To integrate springboot with third-party dependencies is sometimes pretty stressing. Again... due to lack of documentation that I found (maybe it's just me, skill issue fr).
+
+I also forgot to add scope commit message in most of the commit history 💀.
 
 ## Future Development and Improvements
 
