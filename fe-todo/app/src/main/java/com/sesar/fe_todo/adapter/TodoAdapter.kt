@@ -45,7 +45,7 @@ class TodoAdapter(
                 context.startActivity(intent)
             }
 
-            binding.editButton.setOnClickListener { onEdit(todo) }
+//            binding.editButton.setOnClickListener { onEdit(todo) }
             binding.deleteButton.setOnClickListener { onDelete(todo) }
         }
     }

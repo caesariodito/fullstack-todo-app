@@ -14,28 +14,33 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/todoTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{todo.title}" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/todoDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{todo.description}" />
+            <TextView
+                android:id="@+id/todoTitle"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:padding="4dp"
+                android:text="@{todo.title}"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/editButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit" />
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete" />
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Finish" />
+        </LinearLayout>
+
     </LinearLayout>
 </layout>
