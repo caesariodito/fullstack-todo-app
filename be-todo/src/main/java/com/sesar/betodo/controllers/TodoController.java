@@ -37,16 +37,15 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> updateTodo(@PathVariable Long id, @RequestBody Todo todo) {
+    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo todo) {
         if (todoService.getTodoById(id).isEmpty()) {
             throw new TodoNotFoundException("Todo with ID " + id + " not found");
         }
         todo.setId(id);
-        todoService.updateTodo(id, todo);
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "TODO updated successfully");
-        return ResponseEntity.ok(response);
+        Todo updatedTodo = todoService.updateTodo(id, todo);
+        return ResponseEntity.ok(updatedTodo);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteTodo(@PathVariable Long id) {
