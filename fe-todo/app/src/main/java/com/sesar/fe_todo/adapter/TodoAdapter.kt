@@ -1,16 +1,18 @@
 package com.sesar.fe_todo.adapter
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sesar.fe_todo.databinding.ItemTodoBinding
 import com.sesar.fe_todo.model.Todo
+import com.sesar.fe_todo.view.TodoDetailActivity
 
 class TodoAdapter(
     private val onEdit: (Todo) -> Unit,
     private val onDelete: (Todo) -> Unit
-) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>()  {
+) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     private var todos = listOf<Todo>()
 
@@ -35,6 +37,14 @@ class TodoAdapter(
         fun bind(todo: Todo) {
             binding.todo = todo
             binding.executePendingBindings()
+
+            binding.root.setOnClickListener {
+                val context = it.context
+                val intent = Intent(context, TodoDetailActivity::class.java)
+                intent.putExtra("todo_id", todo.id)
+                context.startActivity(intent)
+            }
+
             binding.editButton.setOnClickListener { onEdit(todo) }
             binding.deleteButton.setOnClickListener { onDelete(todo) }
         }

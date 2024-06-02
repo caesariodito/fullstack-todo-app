@@ -18,6 +18,15 @@ class TodoRepository {
         }
     }
 
+    suspend fun getTodoById(id: Long): Todo {
+        return try {
+            api.getTodoById(id)
+        } catch (e: Exception) {
+            Log.e("TodoRepository", "Failed to fetch todo with id \${id: ${e.message}", e)
+            throw Exception("Failed to fetch todo with id ${id}: ${e.message}", e)
+        }
+    }
+
     suspend fun createTodo(todo: Todo): Todo {
         return try {
             api.createTodo(todo)

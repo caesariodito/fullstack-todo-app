@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sesar.fe_todo.databinding.ActivityMainBinding
-import com.sesar.fe_todo.databinding.DialogCreateTodoBinding
 import com.sesar.fe_todo.databinding.DialogEditTodoBinding
 import com.sesar.fe_todo.viewmodel.TodoViewModel
 import com.sesar.fe_todo.adapter.TodoAdapter
 import com.sesar.fe_todo.databinding.DialogConfirmDeleteBinding
+import com.sesar.fe_todo.databinding.DialogCreateTodoBinding
 import com.sesar.fe_todo.model.Todo
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +39,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = TodoAdapter(onEdit = { todo -> showEditDialog(todo) }, onDelete = { todo -> showDeleteDialog(todo) })
+        adapter = TodoAdapter(
+            onEdit = { todo -> showEditDialog(todo) },
+            onDelete = { todo -> viewModel.deleteTodo(todo.id) }
+        )
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
     }
