@@ -1,5 +1,6 @@
-# fullstack-todo-app
-A fullstack application for to do list using Spring Boot as the BE and Kotlin XML as the FE
+# Roadmap
+
+This is just some random notes btw. Potentially I will leave it as be.
 
 BACKEND
 1. init
@@ -66,6 +67,6 @@ AWS SSH:
 7. finished
 
 WORKING ON MINUS AGAIN:
-1. get single todo api
-2. creating user-friendly UI 
+1. get single todo api V
+2. creating user-friendly UI V
 3. Error handling and linters
