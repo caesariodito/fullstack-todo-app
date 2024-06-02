@@ -6,7 +6,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitInstance {
     // Use 10.0.2.2 to refer to localhost on the host machine from the Android emulator
 //    private const val BASE_URL = "http://10.0.2.2:8080/api/"
-    private const val BASE_URL = "http://192.168.1.12:8080/api/"
+//    private const val BASE_URL = "http://192.168.1.2:8080/api/"
+    private const val BASE_URL = "http://18.205.245.195:8080/api/" // public deployed API
 
     val api: TodoApiService by lazy {
         Retrofit.Builder()

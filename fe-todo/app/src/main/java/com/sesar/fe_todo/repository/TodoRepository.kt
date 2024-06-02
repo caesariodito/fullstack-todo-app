@@ -27,7 +27,7 @@ class TodoRepository {
         }
     }
 
-    suspend fun createTodo(todo: Todo): Todo {
+    suspend fun createTodo(todo: Todo) : Todo {
         return try {
             api.createTodo(todo)
         } catch (e: Exception) {
@@ -36,7 +36,7 @@ class TodoRepository {
         }
     }
 
-    suspend fun updateTodo(id: Long, todo: Todo): Todo {
+    suspend fun updateTodo(id: Long, todo: Todo) : Todo {
         return try {
             api.updateTodo(id, todo)
         } catch (e: Exception) {

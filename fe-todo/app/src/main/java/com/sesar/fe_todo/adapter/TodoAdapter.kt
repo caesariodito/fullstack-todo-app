@@ -10,7 +10,6 @@ import com.sesar.fe_todo.model.Todo
 import com.sesar.fe_todo.view.TodoDetailActivity
 
 class TodoAdapter(
-    private val onEdit: (Todo) -> Unit,
     private val onDelete: (Todo) -> Unit
 ) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
@@ -45,7 +44,6 @@ class TodoAdapter(
                 context.startActivity(intent)
             }
 
-//            binding.editButton.setOnClickListener { onEdit(todo) }
             binding.deleteButton.setOnClickListener { onDelete(todo) }
         }
     }

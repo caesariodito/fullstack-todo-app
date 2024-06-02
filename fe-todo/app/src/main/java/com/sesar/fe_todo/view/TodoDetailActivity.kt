@@ -1,39 +1,57 @@
 package com.sesar.fe_todo.view
 
-import android.os.Build
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.sesar.fe_todo.databinding.ActivityTodoDetailBinding
+import com.sesar.fe_todo.R
 import com.sesar.fe_todo.model.Todo
-import com.sesar.fe_todo.viewmodel.TodoDetailViewModel
+import com.sesar.fe_todo.viewmodel.TodoViewModel
+import kotlinx.coroutines.runBlocking
 
 class TodoDetailActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityTodoDetailBinding
-    private lateinit var viewModel: TodoDetailViewModel
+    private lateinit var homeViewModel: TodoViewModel
+    private lateinit var editTextTitle: EditText
+    private lateinit var editTextDescription: EditText
+    private lateinit var buttonSave: Button
+    private var todoId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityTodoDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_todo_detail)
 
-        viewModel = ViewModelProvider(this).get(TodoDetailViewModel::class.java)
+        editTextTitle = findViewById(R.id.editTextTitle)
+        editTextDescription = findViewById(R.id.editTextDescription)
+        buttonSave = findViewById(R.id.buttonSave)
 
-        val todoId: Long = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getLongExtra("todo_id", 0L)
-        } else {
-            @Suppress("DEPRECATION")
-            intent.getLongExtra("todo_id", 0L)
+        homeViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+
+        todoId = intent.getLongExtra("todo_id", -1)
+        if (todoId != -1L) {
+            homeViewModel.getTodoById(todoId!!).observe(this) { todo ->
+                editTextTitle.setText(todo.title)
+                editTextDescription.setText(todo.description)
+            }
         }
 
-        viewModel.fetchTodoDetail(todoId)
-
-        viewModel.todo.observe(this, { todo ->
-            if (todo != null) {
-                binding.todoTitle.text = todo.title
-                binding.todoDescription.text = todo.description
+        buttonSave.setOnClickListener {
+            runBlocking {
+                saveTodo()
+                finish()
             }
-        })
+        }
+    }
+
+    private suspend fun saveTodo() {
+        val title = editTextTitle.text.toString()
+        val description = editTextDescription.text.toString()
+
+        if (todoId != null && todoId != -1L) {
+            val updatedTodo = Todo(todoId!!, title, description, "", "")
+            homeViewModel.updateTodo(updatedTodo)
+        }
     }
 }
+
